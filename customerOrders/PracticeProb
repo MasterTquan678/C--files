@@ -1,0 +1,36 @@
+//************************************************************//
+// practiceprob.cs
+// Author: Antquan Smiley II
+// Date: 10/6/2026
+// Description: This file contains practice problems for converting code.
+//************************************************************//
+
+using System;
+
+int choice = 4;
+
+Console.Write("Enter a rating from 1 to 5: ");
+string input = Console.ReadLine();
+choice = int.Parse(input);
+
+switch (choice)
+{
+    case 1:
+        Console.WriteLine("Very Bad");
+        break;
+    case 2:
+        Console.WriteLine("Bad");
+        break;
+    case 3:
+        Console.WriteLine("Okay");
+        break;
+    case 4:
+        Console.WriteLine("Good");
+        break;
+    case 5:
+        Console.WriteLine("Excellent");
+        break;
+    default:
+        Console.WriteLine("Invalid rating.");
+        break;
+}

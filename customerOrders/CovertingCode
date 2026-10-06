@@ -1,0 +1,27 @@
+//*******************************************************//
+// Practice: converting code
+// Author: Antquan Smiley II
+// Date: 10/6/2026
+// Description: This file contains code for converting between different customer types.
+//*******************************************************//
+
+using System;
+
+int menuChoice = 2;
+ 
+switch (menuChoice)
+{
+    case 1:
+        Console.WriteLine("You selected Add.");
+        break;
+    case 2:
+        Console.WriteLine("You selected Edit.");
+        break;
+    case 3:
+        Console.WriteLine("You selected Delete.");
+        break;
+    default:
+        Console.WriteLine("Invalid choice.");
+        break;
+}
+

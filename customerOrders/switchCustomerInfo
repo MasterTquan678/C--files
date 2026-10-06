@@ -1,0 +1,26 @@
+//**************************************************************//
+// File: switchCustomerInfo.cs
+// Author: Antquan Smiley II
+// Date: 10/6/2026
+// Description: This file contains code for handling customer information using a switch statement.
+//**************************************************************//
+
+using System;
+
+string customerType = "R";
+
+switch (customerType)
+{
+    case "R":
+        Console.WriteLine("You are a regular customer.");
+        break;
+    case "C":
+        Console.WriteLine("You are a commercial customer.");
+        break;
+    case "G":
+        Console.WriteLine("You are a government customer.");
+        break;
+    default:
+        Console.WriteLine("Customer type not recognized.");
+        break;
+}

@@ -1,0 +1,28 @@
+//*******************************************************//
+// CustomerType.cs
+// Author: Antquan Smiley II
+// Date: 10/6/2026
+// Description: This file contains a customerType string using an if and else if statement.
+//*******************************************************//
+
+using System;
+
+string customerType = "R";
+
+if (customerType == "R")
+{
+    Console.WriteLine("You are a regular customer.");
+}
+else if (customerType == "C")
+{
+    Console.WriteLine("You are a commercial customer.");
+}
+else if (customerType == "G")
+{
+    Console.WriteLine("You are a government customer.");
+}
+else
+{
+    Console.WriteLine("Customer type not recognized.");
+}
+

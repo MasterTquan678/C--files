@@ -1,0 +1,9 @@
+1. Which version is easier to read? I feel like the switch statement is easier.
+
+2. Why? The switch statement is easier to read because it clearly separates each case and makes it visually distinct, allowing for quicker identification of the different options.
+
+3. What does default do? Default handles any cases that are not matched or defined.
+
+4. What does break do? Break finishes the case and exits the statement.
+
+5. What would of happened if menuChoice were 10? I would've ouputed "Invalid choice" because it would have hit the default case.

@@ -1,0 +1,27 @@
+//**************************************************************//
+// File: testing.cs
+// Author: Antquan Smiley II
+// Date: 10/6/2026
+// Description: This file contains code for handling menu choices using if-else statements.
+//**************************************************************//
+
+using System;
+
+int menuChoice = 3;
+ 
+if (menuChoice == 1)
+{
+    Console.WriteLine("You selected Add.");
+}
+else if (menuChoice == 2)
+{
+    Console.WriteLine("You selected Edit.");
+}
+else if (menuChoice == 3)
+{
+    Console.WriteLine("You selected Delete.");
+}
+else
+{
+    Console.WriteLine("Invalid choice.");
+}

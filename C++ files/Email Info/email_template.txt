@@ -1,0 +1,9 @@
+To: {email}
+From: noreply@superbeingdeals.com
+Subject: Deals for the Everyday Super Being!
+Hi {first_name},
+Thank you for being such a loyal customer. You have been selected as one of out top customers for a special offer on updated merchandise.
+We've got some great deals for you. Check our website!
+Thank you,
+Marketing
+Super Being Deals

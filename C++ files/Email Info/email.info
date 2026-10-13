@@ -1,0 +1,83 @@
+//****************************************************************************//
+// Email Information //
+// Author: Antquan Smiley II //
+// Date: 10/10/2026 //
+// Description: This file contains information about the email system, including configuration settings, protocols, and best practices for sending and receiving emails. It serves as a reference for developers and administrators to ensure proper email functionality within the application. //
+//****************************************************************************//
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
+
+std::string toLower(std::string str) {
+    std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) {
+        return std::tolower(c);
+    });
+    return str;
+}
+
+// Helper function to convert a string to title case (e.g., "james" -> "James")
+std::string toTitleCase(std::string str) {
+    if (!str.empty()) {
+        str[0] = std::toupper(static_cast<unsigned char>(str[0]));
+        for (size_t i = 1; i < str.length(); ++i) {
+            str[i] = std::tolower(static_cast<unsigned char>(str[i]));
+        }
+    }
+    return str;
+}
+
+// Function to replace placeholders like {first_name} and {email} in a template
+std::string replacePlaceholder(std::string content, const std::string& placeholder, const std::string& value) {
+    size_t pos = 0;
+    while ((pos = content.find(placeholder, pos)) != std::string::npos) {
+        content.replace(pos, placeholder.length(), value);
+        pos += value.length();
+    }
+    return content;
+}
+
+int main() {
+    // 1. Load the email template
+    std::ifstream templateFile("email_template.txt");
+    if (!templateFile.is_open()) {
+        std::cerr << "Error: Could not open email_template.txt\n";
+        return 1;
+    }
+    std::stringstream buffer;
+    buffer << templateFile.rdbuf();
+    std::string templateContent = buffer.str();
+    templateFile.close();
+
+    // 2. Load the list of recipients
+    std::ifstream listFile("email_list.txt");
+    if (!listFile.is_open()) {
+        std::cerr << "Error: Could not open email_list.txt\n";
+        return 1;
+    }
+
+    std::string firstName, lastName, email;
+    int emailCount = 0;
+
+    // 3. Read and process each line
+    while (listFile >> firstName >> lastName >> email) {
+        std::string formattedName = toTitleCase(firstName);
+        std::string formattedEmail = toLower(email);
+
+        std::string currentEmail = templateContent;
+        currentEmail = replacePlaceholder(currentEmail, "{first_name}", formattedName);
+        currentEmail = replacePlaceholder(currentEmail, "{email}", formattedEmail);
+
+        std::cout << "------------------------------------------\n";
+        std::cout << "Generated Email #" << (++emailCount) << ":\n";
+        std::cout << "------------------------------------------\n";
+        std::cout << currentEmail << "\n\n";
+    }
+
+    listFile.close();
+    return 0;
+}

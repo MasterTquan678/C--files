@@ -1,0 +1,88 @@
+//***************************************************//
+// Author: Antquan Smiley II
+// Date: 10/24/2026
+// Description: A student grader that keeps up with all of the students records and cumulative grades.
+//***************************************************//
+
+using System;
+using System.Collections.Generic;
+
+namespace StudentGradebook
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Stores student names as keys and grades as values
+            Dictionary<string, double> gradebook = new Dictionary<string, double>();
+
+            Console.WriteLine("=== Student Gradebook Console App ===");
+            Console.WriteLine("Instructions: Enter student names and grades. Leave the name blank and press Enter to finish.\n");
+
+            while (true)
+            {
+                // Get student name
+                Console.Write("Enter student name: ");
+                string name = Console.ReadLine().Trim();
+
+                // Break the loop if the user enters an empty name
+                if (string.IsNullOrEmpty(name))
+                {
+                    break;
+                }
+
+                // Check for duplicate names to avoid overwriting existing data
+                if (gradebook.ContainsKey(name))
+                {
+                    Console.WriteLine($"Error: {name} is already in the gradebook. Please use a unique name.");
+                    continue;
+                }
+
+                // Get student grade with validation
+                double grade;
+                while (true)
+                {
+                    Console.Write($"Enter grade for {name}: ");
+                    string gradeInput = Console.ReadLine();
+
+                    if (double.TryParse(gradeInput, out grade) && grade >= 0 && grade <= 100)
+                    {
+                        break; // Valid grade entered
+                    }
+                    Console.WriteLine("Invalid entry. Please enter a numerical grade between 0 and 100.");
+                }
+
+                // Add to the dictionary
+                gradebook.Add(name, grade);
+                Console.WriteLine($"Added {name} with a grade of {grade}.\n");
+            }
+
+            // Display results if entries exist
+            Console.WriteLine("\n=== Summary Report ===");
+            if (gradebook.Count == 0)
+            {
+                Console.WriteLine("No student data was entered.");
+            }
+            else
+            {
+                Console.WriteLine($"{"Student Name",-20} | {"Grade",-6}");
+                Console.WriteLine(new string('-', 30));
+
+                double totalSum = 0;
+                foreach (KeyValuePair<string, double> student in gradebook)
+                {
+                    Console.WriteLine($"{student.Key,-20} | {student.Value,6:F2}");
+                    totalSum += student.Value;
+                }
+
+                double average = totalSum / gradebook.Count;
+                Console.WriteLine(new string('-', 30));
+                Console.WriteLine($"Total Students: {gradebook.Count}");
+                Console.WriteLine($"Class Average:  {average:F2}");
+            }
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
+        }
+    }
+}

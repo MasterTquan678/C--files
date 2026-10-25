@@ -7,82 +7,95 @@
 using System;
 using System.Collections.Generic;
 
-namespace StudentGradebook
+namespace StudentGradeManager 
 {
-    class Program
+    class Program 
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
-            // Stores student names as keys and grades as values
-            Dictionary<string, double> gradebook = new Dictionary<string, double>();
+            Dictionary<string, int> students = new Dictionary<string, int>
+        {
+            { "Alice", 90 },
+            { "Bob", 85 },
+            { "Charlie", 95 }
+        };
 
-            Console.WriteLine("=== Student Gradebook Console App ===");
-            Console.WriteLine("Instructions: Enter student names and grades. Leave the name blank and press Enter to finish.\n");
+        // 2. Add a new pair
+        students.Add("Diana", 88);
+        // Or using indexer syntax:
+        students["Evan"] = 92;
 
-            while (true)
-            {
-                // Get student name
-                Console.Write("Enter student name: ");
-                string name = Console.ReadLine().Trim();
+        // 3. Retrieve a value by key
+        Console.WriteLine($"Alice's grade: {students["Alice"]}");
 
-                // Break the loop if the user enters an empty name
-                if (string.IsNullOrEmpty(name))
-                {
-                    break;
-                }
-
-                // Check for duplicate names to avoid overwriting existing data
-                if (gradebook.ContainsKey(name))
-                {
-                    Console.WriteLine($"Error: {name} is already in the gradebook. Please use a unique name.");
-                    continue;
-                }
-
-                // Get student grade with validation
-                double grade;
-                while (true)
-                {
-                    Console.Write($"Enter grade for {name}: ");
-                    string gradeInput = Console.ReadLine();
-
-                    if (double.TryParse(gradeInput, out grade) && grade >= 0 && grade <= 100)
-                    {
-                        break; // Valid grade entered
-                    }
-                    Console.WriteLine("Invalid entry. Please enter a numerical grade between 0 and 100.");
-                }
-
-                // Add to the dictionary
-                gradebook.Add(name, grade);
-                Console.WriteLine($"Added {name} with a grade of {grade}.\n");
-            }
-
-            // Display results if entries exist
-            Console.WriteLine("\n=== Summary Report ===");
-            if (gradebook.Count == 0)
-            {
-                Console.WriteLine("No student data was entered.");
-            }
-            else
-            {
-                Console.WriteLine($"{"Student Name",-20} | {"Grade",-6}");
-                Console.WriteLine(new string('-', 30));
-
-                double totalSum = 0;
-                foreach (KeyValuePair<string, double> student in gradebook)
-                {
-                    Console.WriteLine($"{student.Key,-20} | {student.Value,6:F2}");
-                    totalSum += student.Value;
-                }
-
-                double average = totalSum / gradebook.Count;
-                Console.WriteLine(new string('-', 30));
-                Console.WriteLine($"Total Students: {gradebook.Count}");
-                Console.WriteLine($"Class Average:  {average:F2}");
-            }
-
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
+        // 4. Iterate through the dictionary
+        foreach (KeyValuePair<string, int> kvp in students)
+        {
+            Console.WriteLine($"Name: {kvp.Key}, Grade: {kvp.Value}");
         }
-    }
+        while (true)
+        {
+            Console.Write("\nEnter student name (or 'exit' to stop): ");
+            string name = Console.ReadLine();
+
+            // Check for sentinel value to break the loop
+            if (name != null && name.Equals("exit", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
+
+            Console.Write("Enter student grade: ");
+            string Input = Console.ReadLine();
+
+            // Display the recorded entry
+            Console.WriteLine($"Recorded: Name = {name}, Grade = {Input}");
+        }
+
+        Console.WriteLine("\nProgram exited. Goodbye!");
+
+        onsole.WriteLine("\nProgram exited. Goodbye!");
+			Console.WriteLine("Enter name:");
+string inputName = Console.ReadLine();
+
+while (string.IsNullOrWhiteSpace(inputName))
+{
+    Console.WriteLine("Name cannot be empty or whitespace. Please enter a valid name:");
+    inputName = Console.ReadLine();
+}
+		Console.WriteLine("Enter grade (0-100):");
+string inputGrade = Console.ReadLine();
+        int grade;
+        while(!int.TryParse(inputGrade, out grade))
+        {
+            Console.Write("Invalid grade. Please enter a number between  0 and 100: ");
+            inputGrade = Console.ReadLine();
+        }
+        Console.Write("Enter a number: ");
+			string userInput = Console.ReadLine();
+        try
+        {
+            // Attempt to parse the user input string into an integer
+            int parsedNumber = int.Parse(userInput);
+            
+            // If successful, display the result
+            Console.WriteLine($"Success! You entered the number: {parsedNumber}");
+        }
+        catch (FormatException)
+        {
+            // Triggers if the input is not a valid number (e.g., "abc")
+            Console.WriteLine("Please enter a valid number.");
+        }
+        catch (OverflowException)
+        {
+            // Triggers if the number is too large or too small for an int
+            Console.WriteLine("The number you entered is too large or too small.");
+        }
+        catch (Exception ex)
+        {
+            // Triggers for any other unexpected errors
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+      }
+
+     }
+   }
 }

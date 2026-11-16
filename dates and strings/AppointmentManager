@@ -1,0 +1,170 @@
+//**********************************************//
+// Aurthor: Antquan Smiley II
+// Date: 11/15/2026
+// Description: A console app for setting up appiontments
+//**********************************************//
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Globalization;
+
+namespace AppointmentManager
+{
+    public class Appointment
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public DateTime Date { get; set; }
+        public string Notes { get; set; }
+
+        public override string ToString()
+        {
+            return $"[{Id}] {Date:yyyy-MM-dd HH:mm} | {Title} {(string.IsNullOrWhiteSpace(Notes) ? "" : $"- {Notes}")}";
+        }
+    }
+
+    class Program
+    {
+        private static readonly List<Appointment> Appointments = new List<Appointment>();
+        private static int _nextId = 1;
+
+        static void Main()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n=== Appointment Manager ===");
+                Console.WriteLine("1. Add Appointment");
+                Console.WriteLine("2. View All Appointments");
+                Console.WriteLine("3. View Upcoming (Next 7 Days)");
+                Console.WriteLine("4. Search Appointments");
+                Console.WriteLine("5. Exit");
+                Console.Write("Select an option (1-5): ");
+
+                string choice = Console.ReadLine()?.Trim();
+
+                switch (choice)
+                {
+                    case "1":
+                        AddAppointment();
+                        break;
+                    case "2":
+                        ViewAllAppointments();
+                        break;
+                    case "3":
+                        ViewUpcomingAppointments();
+                        break;
+                    case "4":
+                        SearchAppointments();
+                        break;
+                    case "5":
+                        Console.WriteLine("GoodBye!");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please enter a number between 1 and 5.");
+                        break;
+                }
+            }
+        }
+
+        private static void AddAppointment()
+        {
+            Console.Write("\nEnter appointment title: ");
+            string title = Console.ReadLine()?.Trim();
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Title cannot be empty.");
+                return;
+            }
+
+            Console.Write("Enter date and time (yyyy-MM-dd HH:mm): ");
+            string dateInput = Console.ReadLine()?.Trim();
+            if (!DateTime.TryParseExact(dateInput, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+            {
+                Console.WriteLine("Invalid date format. Please use yyyy-MM-dd HH:mm (e.g., 2026-11-20 14:30).");
+                return;
+            }
+
+            Console.Write("Enter notes (optional): ");
+            string notes = Console.ReadLine()?.Trim();
+
+            Appointments.Add(new Appointment
+            {
+                Id = _nextId++,
+                Title = title,
+                Date = date,
+                Notes = notes
+            });
+
+            Console.WriteLine("Appointment added successfully!");
+        }
+
+        private static void ViewAllAppointments()
+        {
+            Console.WriteLine("\n--- All Appointments ---");
+            if (!Appointments.Any())
+            {
+                Console.WriteLine("No appointments found.");
+                return;
+            }
+
+            foreach (var app in Appointments.OrderBy(a => a.Date))
+            {
+                Console.WriteLine(app);
+            }
+        }
+
+        private static void ViewUpcomingAppointments()
+        {
+            Console.WriteLine("\n--- Upcoming Appointments (Next 7 Days) ---");
+            DateTime now = DateTime.Now;
+            DateTime sevenDaysFromNow = now.AddDays(7);
+
+            var upcoming = Appointments
+                .Where(a => a.Date >= now && a.Date <= sevenDaysFromNow)
+                .OrderBy(a => a.Date)
+                .ToList();
+
+            if (!upcoming.Any())
+            {
+                Console.WriteLine("No appointments scheduled for the next 7 days.");
+                return;
+            }
+
+            foreach (var app in upcoming)
+            {
+                Console.WriteLine(app);
+            }
+        }
+
+        private static void SearchAppointments()
+        {
+            Console.Write("\nEnter keyword to search (title or notes): ");
+            string keyword = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                Console.WriteLine("Search term cannot be empty.");
+                return;
+            }
+
+            var results = Appointments
+                .Where(a => a.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                            (!string.IsNullOrEmpty(a.Notes) && a.Notes.Contains(keyword, StringComparison.OrdinalIgnoreCase)))
+                .OrderBy(a => a.Date)
+                .ToList();
+
+            Console.WriteLine($"\n--- Search Results for '{keyword}' ---");
+            if (!results.Any())
+            {
+                Console.WriteLine("No matching appointments found.");
+                return;
+            }
+
+            foreach (var app in results)
+            {
+                Console.WriteLine(app);
+            }
+        }
+    }
+}
